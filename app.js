@@ -1,7 +1,8 @@
 import { createReadStream } from "node:fs";
 import { createServer } from "node:http";
+import { text, json } from "node:stream/consumers";
 
-const server = createServer((req, res) => {
+const server = createServer(async (req, res) => {
   // console.log(req.url);
   // console.log(req.headers.accept);
 
@@ -9,16 +10,19 @@ const server = createServer((req, res) => {
   // console.log(url);
 
   let body = "";
+  // console.log(await json(req));
+  res.write(`Bonjour ${(await json(req)).name}`);
+  res.end();
 
   // ---------------------------Read Request by object---------------------------
 
-  req.on("data", (chunk) => {
-    body += chunk;
-  });
-  req.on("close", () => {
-    console.log(body);
-    res.end();
-  });
+  // req.on("data", (chunk) => {
+  //   body += chunk;
+  // });
+  // req.on("close", () => {
+  //   console.log(body);
+  //   res.end();
+  // });
 
   // ---------------------------USE PARAMS---------------------------
 
